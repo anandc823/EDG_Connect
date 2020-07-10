@@ -1,5 +1,7 @@
 import pandas as pd
 import requests
+import win32com.client
+import datetime
 
 filename = "survey_answers.csv"
 max_meeting_size=  4
@@ -30,8 +32,8 @@ def create_meetings():
     for topic in topics:
         members = groups[topic]
 
-        if(len(members)) == 1:
-            print("Only 1 Member Found")
+        #if(len(members)) == 1:
+        #   print("Only 1 Member Found")
 
         if(len(members)<=max_meeting_size):
             cur_meeting = {}
@@ -53,13 +55,40 @@ def create_meetings():
                 else:
                     size_counter+=1
                     if(size_counter>=max_meeting_size):
-                        metings.append(cur_meeting)
+                        meetings.append(cur_meeting)
                         size_counter = 0
-                
-    return meetings
 
+def getFriday():
+    d = datetime.date.today()+datetime.timedelta(1)
+
+    while d.weekday() != 4:
+        d += datetime.timedelta(1)
+    
+    meetingTime = str(d)+" 12:00"
+    print(meetingTime)
+
+    return meetingTime
+
+
+def sendMeeting(startdt,topic,recipients):    
+  appt = outlook.CreateItem(1) # AppointmentItem
+  appt.Start = startdt # yyyy-MM-dd hh:mm
+  appt.Subject = f'MatchWorks Meeting Invitation: {topic}!'
+  appt.Duration = 30 # In minutes (60 Minutes)
+  appt.Location = "Follow Up On Location"
+  appt.MeetingStatus = 1 # 1 - olMeeting; Changing the appointment to meeting. Only after changing the meeting status recipients can be added
+  
+  for email in recipients:
+    appt.Recipients.Add(email) # Don't end ; as delimiter
+
+  appt.Save()
+  appt.Send()
 
 def main():
     download_data()
-    create_meetings()
+    meetings = create_meetings()
+    meetingdt = getFriday()
+
+    for meeting in meetings:
+        sendMeeting(meetingdt,meeting['topic'],meeting['members'])
 main()
