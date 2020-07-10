@@ -1,0 +1,82 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.topbar {
+    right: 0;
+    padding-right: 2rem;
+    position: absolute;
+    flex-direction: row;
+    align-self: flex-end;
+}
+
+.top-buttons {
+    padding-right: 5rem;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.background-image {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background-image: linear-gradient(-1deg, rgba(26, 40, 100, 0.64), rgba(26, 40, 100, 0.64)),
+    url(./assets/edg-connect-background-2.jpg);
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+    z-index: -1;
+}
+
+.banner {
+    display: flex;
+    font-size: 5rem;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+.sign-up {
+    font-size: 1.5rem;
+    background-color: #0076A8;
+    border-color: #0076A8;
+    padding: 1rem;
+    margin: 3rem;
+}
+
+.description {
+    display: flex;
+    font-size: 2rem;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+.about {
+    color: white;
+    line-height: 4rem;
+}
+
+.email-list {
+    color: white;
+    list-style-type: none;
+}
+
+a:not([href]) {
+    color: white;
+}
+
+a:not([href]):hover {
+    color: white;
+}
