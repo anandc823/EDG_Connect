@@ -3,6 +3,7 @@ import requests
 import win32com.client
 import datetime
 
+outlook = win32com.client.Dispatch("Outlook.Application")
 filename = "survey_answers.csv"
 max_meeting_size=  4
 min_meeting_size = 2
@@ -18,15 +19,14 @@ def download_data():
         f.write(r.content)
 
 def create_meetings():
-    def create_meetings():
-    df = pd.read_excel(filename)
+    df = pd.read_csv(filename)
 
-    topics = df['response'].unique()
+    topics = df[response_prompt].unique()
 
     groups = {}
 
     for topic in topics:
-        groups[topic] = list(df[df.response==topic]["Email"])
+        groups[topic] = list(df[df[response_prompt]==topic][email_prompt])
 
     meetings = []
 
