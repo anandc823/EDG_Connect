@@ -1,17 +1,29 @@
 import pandas as pd
-filename = "survey_answers.xlsx"
+import requests
+
+filename = "survey_answers.csv"
 max_meeting_size=  4
 min_meeting_size = 2
+response_prompt = 'What type of meeting would you be interested in having with other EDG members?'
+email_prompt = "What's your MathWorks email?"
+
+def download_data():
+    url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQzboGzFB0L-ogAsEArqPOPABbeX2BdXffkmLEAYYMSTQFkID_kPK26JTXtRhszM6OASX2-cEg-fOsa/pub?output=csv"
+    
+    r = requests.get(url)
+
+    with open("survey_answers.csv",'wb') as f:
+        f.write(r.content)
 
 def create_meetings():
-    df = pd.read_excel(filename)
+    df = pd.read_csv(filename)
 
-    topics = df['response'].unique()
+    topics = df[response_prompt].unique()
 
     groups = {}
 
     for topic in topics:
-        groups[topic] = list(df[df.response==topic]["Email"])
+        groups[topic] = list(df[df[response_prompt]==topic][email_prompt])
 
     meetings = []
     
@@ -48,6 +60,6 @@ def create_meetings():
 
 
 def main():
-    meetings = create_meetings()
-    print(meetings)
+    download_data()
+    create_meetings()
 main()
