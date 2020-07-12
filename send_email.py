@@ -2,16 +2,6 @@ import win32com.client
 import datetime
 
 outlook = win32com.client.Dispatch("Outlook.Application")
-myData = [
-    {
-        'topic':"Making an awesome Hack Day Project",
-        'members':["ageannop@mathworks.com", "aliu@mathworks.com"]
-    },
-    {
-        'topic':"Being great Team Players during Hack Day",
-        'members':["ageannop@mathworks.com", "achitale@mathworks.com", "mqureshi@mathworks.com", "skaza@mathworks.com"]
-    }
-]
 
 def getFriday():
     d = datetime.date.today()+datetime.timedelta(1)
@@ -32,7 +22,8 @@ def sendMeeting(startdt,topic,recipients):
   appt.Duration = 30 # In minutes (60 Minutes)
   appt.Location = "Follow Up On Location"
   appt.MeetingStatus = 1 # 1 - olMeeting; Changing the appointment to meeting. Only after changing the meeting status recipients can be added
-  
+  appt.body = "heres a test body of the message"
+
   for email in recipients:
     appt.Recipients.Add(email) # Don't end ; as delimiter
 
